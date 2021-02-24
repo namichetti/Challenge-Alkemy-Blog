@@ -7,6 +7,27 @@
 <div th:replace="layout/layout :: navbar"></div>
 <div th:replace="layout/layout :: alerts"></div>
 
+<div class="container">
+	<h1 class="text text-primary font-weight-bold py-3 text-center">Lista de Posts</h1>
+	<table class="table">
+	  <thead class="thead-light">
+	    <tr>
+	      <th>Detalle</th>
+	      <th>Título</th>
+	      <th>Editar</th>
+	      <th>Eliminar</th> 
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr th:each="post:${posts}">
+	      <td><a class="btn btn-info" th:href="@{/read/} + ${post.id}">Ver</a></td>
+	      <td th:text="${post.titulo}"></td>
+	      <td><a class="btn btn-primary" th:href="@{/delete/} + ${post.id}">Editar</a></td>
+	     <td><a class="btn btn-danger" th:href="@{/update/} + ${post.id}">	Eliminar</a></td>
+	    </tr>
+	  </tbody>
+	</table>
+</div>
 
 <div th:replace="layout/layout :: scripts"></div>
 </body>
