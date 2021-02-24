@@ -5,7 +5,6 @@
 <meta charset="UTF-8">
 <title th:text="${titulo}"></title>
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
-<script src="@{/js/bootstrap.bundle.min.js}"></script>
 </head>
 <body>
 
@@ -37,6 +36,7 @@
 	</div>
 
 	<div th:fragment="scripts">
+		<script th:src="@{/js/jquery-3.4.1.slim.min.js}"></script>
 		<script th:src="@{/js/popper.min.js}"></script>
 		<script th:src="@{/js/bootstrap.min.js}"></script>
 	</div>
