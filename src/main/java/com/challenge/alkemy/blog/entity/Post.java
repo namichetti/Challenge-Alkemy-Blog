@@ -4,20 +4,17 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+import javax.validation.constraints.NotEmpty;
 import org.hibernate.annotations.CreationTimestamp;
 
-enum Categoria{
-	MÚSICA,
-	POESÍA,
-	TEATRO,
-	FILOSOFÍA,
-	NOVELA
-}
+import com.challenge.alkemy.blog.model.Categoria;
+
 
 @Entity
 @Table(name="posts")
@@ -28,10 +25,13 @@ public class Post implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	@NotEmpty
 	private String titulo; 
+	@NotEmpty
 	private String contenido; 
 	private String imagen;
-	private Categoria categoria;	
+    @Enumerated(EnumType.ORDINAL)
+	private Categoria categoria;
 	@CreationTimestamp
 	@Column(name="fecha_creacion")
 	private LocalDateTime fechaCreacion;
@@ -76,6 +76,11 @@ public class Post implements Serializable{
 	public Categoria getCategoria() {
 		return categoria;
 	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+	
 	
 
 }
