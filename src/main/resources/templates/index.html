@@ -8,27 +8,27 @@
 <div th:replace="layout/layout :: alerts"></div>
 
 <div class="container">
-	<h1 class="text text-primary font-weight-bold py-3 text-center">Lista de Posts</h1>
-	<a class="btn btn-primary mb-3" th:href="@{/posts/form}">Alta Post</a>
+	<h1 class="text text-primary font-weight-bold py-3 text-center">Post List</h1>
+	<a class="btn btn-primary mb-3" th:href="@{/posts/form}">Create Post</a>
 	<table class="table">
 	  <thead class="thead-light">
 	    <tr>
-	      <th>Detalle</th>
-	      <th>Título</th>
-	      <th>Editar</th>
-	      <th>Eliminar</th> 
+	      <th>Detail</th>
+	      <th>Title</th>
+	      <th>Edit</th>
+	      <th>Delete</th> 
 	    </tr>
 	  </thead>
 	  <tbody>
 	    <tr th:each="post:${posts}">
-	      <td><a class="btn btn-info" th:href="@{/posts/} + ${post.id}">Ver</a></td>
-	      <td th:text="${post.titulo}"></td>
+	      <td><a class="btn btn-info" th:href="@{/posts/} + ${post.id}">View</a></td>
+	      <td th:text="${post.title}"></td>
 	      <td> <form th:action="@{/posts/form/} + ${post.id}" th:method="PATCH">
-	     		<button type="submit" class="btn btn-primary">Editar</button>
+	     		<button type="submit" class="btn btn-primary">Edit</button>
 	     	</form>
 	      </td>
 	     <td><form th:action="@{/posts/} + ${post.id}" th:method="DELETE">
-	     		<button type="submit" class="btn btn-danger">Eliminar</button>
+	     		<button type="submit" class="btn btn-danger">Delete</button>
 	     	</form>
 	     </td>
 	    </tr>

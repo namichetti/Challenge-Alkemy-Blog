@@ -1,4 +1,4 @@
-package com.challenge.alkemy.blog.service;
+package com.challenge.alkemy.blog.model.service;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.challenge.alkemy.blog.dao.IPostDao;
-import com.challenge.alkemy.blog.entity.Post;
+import com.challenge.alkemy.blog.model.dao.IPostDao;
+import com.challenge.alkemy.blog.model.entity.Post;
 
 @Service
 public class PostServiceImpl implements IPostService{
@@ -18,9 +18,9 @@ public class PostServiceImpl implements IPostService{
 
 	@Override
 	@Transactional(readOnly=true)
-	public List<Post> getAll() {
+	public List<Post> getAllOrderByDateDesc() {
 		//return (List<Post>)this.postDao.findAll();
-		return (List<Post>)this.postDao.getAllOrderByDateAsc();
+		return (List<Post>)this.postDao.getAllOrderByDateDesc();
 	}
 	
 	@Override

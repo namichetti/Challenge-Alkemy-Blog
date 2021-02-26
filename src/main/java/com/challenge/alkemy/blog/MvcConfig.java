@@ -14,7 +14,7 @@ public class MvcConfig implements WebMvcConfigurer{
 		// TODO Auto-generated method stub
 		WebMvcConfigurer.super.addResourceHandlers(registry);
 		
-		//ToUri le agrega el "file:/"
+		//ToUri add "file:/"
 		String resourcePath = Paths.get("uploads").toAbsolutePath().toUri().toString();
 		registry.addResourceHandler("/uploads/**").addResourceLocations(resourcePath);
 		

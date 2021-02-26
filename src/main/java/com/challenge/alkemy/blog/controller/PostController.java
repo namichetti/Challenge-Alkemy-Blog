@@ -26,8 +26,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.challenge.alkemy.blog.entity.Post;
-import com.challenge.alkemy.blog.service.IPostService;
+
+import com.challenge.alkemy.blog.model.entity.Post;
+import com.challenge.alkemy.blog.model.service.IPostService;
 
 @Controller
 @RequestMapping("/posts")
@@ -41,7 +42,7 @@ public class PostController {
 
 	@GetMapping("/")
 	public String getAll(Model model) {
-		List<Post> posts = this.postService.getAll();
+		List<Post> posts = this.postService.getAllOrderByDateDesc();
 		model.addAttribute("posts",posts);
 		return "index";
 	}
@@ -51,7 +52,7 @@ public class PostController {
 		Post post = null;
 		
 		if(id <=0) {
-			flash.addFlashAttribute("danger", "El post no existe.");
+			flash.addFlashAttribute("danger", "Post does not exist.");
 			return "redirect:/posts";
 		}
 		
@@ -59,12 +60,12 @@ public class PostController {
 			post = this.postService.getById(id);
 		}catch(Exception e) {
 			this.logger.error("Error: " + e.getMessage());
-			flash.addFlashAttribute("danger", "Hubo un error al tratar de recuperar el post.");
+			flash.addFlashAttribute("danger", "There was a problem trying to get the Post.");
 			
 		}
 		
 		if(post == null) {
-			flash.addFlashAttribute("danger", "El post no existe.");
+			flash.addFlashAttribute("danger", "Post does not exist.");
 			return "redirect:/posts";
 		}
 		
@@ -77,59 +78,59 @@ public class PostController {
 	Post post = null;
 	
 		if( id <=0) {
-			flash.addFlashAttribute("danger", "El post no existe.");
+			flash.addFlashAttribute("danger", "Post does not exist.");
 			return "redirect:/posts/";
 		}
 		
 		try {
 			post = this.postService.getById(id);
 			if(post == null) {
-				flash.addFlashAttribute("danger", "El post no existe.");
+				flash.addFlashAttribute("danger", "Post does not exist.");
 				return "redirect:/posts/";
 			}
 			this.postService.deleteById(post.getId());
 		}catch(Exception e) {
 			this.logger.error("Error: " + e.getMessage());
-			flash.addFlashAttribute("danger", "Hubo un problema al intentar borrar el Post");
+			flash.addFlashAttribute("danger", "There was a problem trying to delete the Post.");
 			return "redirect:/posts/";
 		}
 				
-		flash.addFlashAttribute("success", "El post ha sido eliminado con éxito.");
+		flash.addFlashAttribute("success", "Post deleted successfully!");
 		return "redirect:/posts/";
 	}
 	
 	@PostMapping("/")
-	public String save(@Valid Post post, BindingResult result,RedirectAttributes flash, @RequestParam("file") MultipartFile imagen, SessionStatus session) {
+	public String save(@Valid Post post, BindingResult result,RedirectAttributes flash, @RequestParam("file") MultipartFile image, SessionStatus session) {
 		if(result.hasErrors()) {
 			return "form";
 		}
 		
-		if(!imagen.isEmpty() || imagen.getOriginalFilename().length()>0) {
+		if(!image.isEmpty() || image.getOriginalFilename().length()>0) {
 			//Generamos un String random para concatenar con el nombre de la imagen y, por ende que sea única. 
-			String uniqueImagenName = UUID.randomUUID().toString() + "_" + imagen.getOriginalFilename();
+			String uniqueImagenName = UUID.randomUUID().toString() + "_" + image.getOriginalFilename();
 			// Ruta Relativa: Concatena "Uploads" con el nombre de la imagen.
 			Path rootPath = Paths.get("uploads").resolve(uniqueImagenName); 
 			
 			// Ruta Absoluta.
 			Path absolutPath = rootPath.toAbsolutePath();
 			try {
-				Files.copy(imagen.getInputStream(), absolutPath);
-				post.setImagen(uniqueImagenName);
+				Files.copy(image.getInputStream(), absolutPath);
+				post.setImage(uniqueImagenName);
 			} catch (IOException e) {
 				this.logger.error("Error: " + e.getMessage());
 			}
 		}
 		
-		String mensaje = post.getId() != null ? "El post fue actualizado con éxito.":"El Post fue dado de alta con éxito.";
+		String message = post.getId() != null ? "Post updated successfully!":"Post created successfully!";
 		
 		try {
 			this.postService.save(post);
 		}catch(Exception e) {
 			this.logger.error("Error: " + e.getMessage());
-			flash.addFlashAttribute("danger", "Hubo un problema al intentar dar de alta el Post");
+			flash.addFlashAttribute("danger", "There was a problem trying to create the Post");
 			return "redirect:/posts/";
 		}
-		flash.addFlashAttribute("success",mensaje);	
+		flash.addFlashAttribute("success",message);	
 		session.setComplete();
 		return "redirect:/posts/";
 	}
@@ -146,24 +147,23 @@ public class PostController {
 		Post recoverPost = null;
 		
 		if(id <=0) {
-			flash.addFlashAttribute("danger", "El post no existe.");
-			return "redirect:/posts";
+			flash.addFlashAttribute("danger", "Post does not exist.");
+			return "redirect:/posts/";
 		}
 		
 		try {
 			recoverPost = this.postService.getById(id);
 		}catch(Exception e) {
 			this.logger.error("Error: " + e.getMessage());
-			flash.addFlashAttribute("danger", "Hubo un problema al intentar actualizar el Post");
+			flash.addFlashAttribute("danger", "There was a problem trying to update the Post.");
 			return "redirect:/posts/";
 		}
 		
 		if(recoverPost == null) {
-			flash.addFlashAttribute("danger", "El post no existe.");
-			return "redirect:/posts";
+			flash.addFlashAttribute("danger", "Post does not exist.");
+			return "redirect:/posts/";
 		}
 		
-		flash.addFlashAttribute("success", "El post fue actualizado con éxito.");
 		model.addAttribute("post", recoverPost);
 		return "form";
 	}
