@@ -19,7 +19,8 @@ public class PostServiceImpl implements IPostService{
 	@Override
 	@Transactional(readOnly=true)
 	public List<Post> getAll() {
-		return (List<Post>)this.postDao.findAll();
+		//return (List<Post>)this.postDao.findAll();
+		return (List<Post>)this.postDao.getAllOrderByDateAsc();
 	}
 	
 	@Override
