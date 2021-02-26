@@ -9,6 +9,7 @@
 
 <div class="container">
 	<h1 class="text text-primary font-weight-bold py-3 text-center">Lista de Posts</h1>
+	<a class="btn btn-primary mb-3" th:href="@{/posts/form}">Alta Post</a>
 	<table class="table">
 	  <thead class="thead-light">
 	    <tr>
@@ -20,10 +21,16 @@
 	  </thead>
 	  <tbody>
 	    <tr th:each="post:${posts}">
-	      <td><a class="btn btn-info" th:href="@{/read/} + ${post.id}">Ver</a></td>
+	      <td><a class="btn btn-info" th:href="@{/posts/} + ${post.id}">Ver</a></td>
 	      <td th:text="${post.titulo}"></td>
-	      <td><a class="btn btn-primary" th:href="@{/delete/} + ${post.id}">Editar</a></td>
-	     <td><a class="btn btn-danger" th:href="@{/update/} + ${post.id}">	Eliminar</a></td>
+	      <td> <form th:action="@{/posts/form/} + ${post.id}" th:method="PATCH">
+	     		<button type="submit" class="btn btn-primary">Editar</button>
+	     	</form>
+	      </td>
+	     <td><form th:action="@{/posts/} + ${post.id}" th:method="DELETE">
+	     		<button type="submit" class="btn btn-danger">Eliminar</button>
+	     	</form>
+	     </td>
 	    </tr>
 	  </tbody>
 	</table>
