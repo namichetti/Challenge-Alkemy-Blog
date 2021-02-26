@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+
+<div th:replace="layout/layout :: navbar"></div>
+<div th:replace="layout/layout :: alerts"></div>
+
+<div class="container">
+	<h1 class="text text-primary font-weight-bold py-3 text-center">Formulario de Post</h1>
+		<div class="col-md-4 offset-md-4">
+			<form th:action="@{/posts/}" method="POST" th:object="${post}" enctype="multipart/form-data">
+				<div class="form-group">
+					<label for="titulo">Título</label> <input type="text"
+						class="form-control" th:field="*{titulo}" name="titulo"
+						placeholder="Título" autofocus /> <small
+						class="text text-danger" th:if="${#fields.hasErrors('titulo')}"
+						th:errors="*{titulo}"></small>
+				</div>
+				<div class="form-group">
+					<label for="contenido">Contenido</label> <input type="text"
+						class="form-control" th:field="*{contenido}" name="email"
+						placeholder="Contenido" /> <small class="text text-danger"
+						th:if="${#fields.hasErrors('contenido')}" th:errors="*{contenido}"></small>
+				 </div>
+				<label for="imagen">Imagen</label> <input type="file" name="file"
+						class="form-control" 
+						placeholder="Imagen" />
+				<div class="form-group">
+					<label for="categoria">Categoría</label>	
+						<select class="custom-select" th:field="*{categoria}"> 
+						  <option th:each="categoria : ${T(com.challenge.alkemy.blog.model.Categoria).values()}"
+                		  th:value="${categoria}" th:text="${categoria} "></option>
+						</select>
+				</div>
+				<input type="submit" class="btn btn-primary" value="Guardar" />
+				<a class="btn btn-danger" th:href="@{/posts/}">Cancelar</a>
+			</form>
+		</div>
+</div>
+
+<div th:replace="layout/layout :: scripts"></div>
+</body>
+</html>

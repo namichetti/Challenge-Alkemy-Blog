@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+
+<div th:replace="layout/layout :: navbar"></div>
+<div th:replace="layout/layout :: alerts"></div>
+
+<div class="container">
+	<h1 class="text text-primary font-weight-bold py-3 text-center">Detalle de Post</h1>
+	<table class="table">
+	  <thead class="thead-light">
+	    <tr>
+	      <th>Título</th>
+	      <th>Contenido</th>
+	      <th>Imagen</th> 
+	      <th>Categoría</th> 
+	      <th>Fecha Creación</th> 
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr>
+	      <td th:text="${post.titulo}"></td>
+	      <td th:text="${post.contenido}"></td>
+		  <td>
+		  	<img th:if="not ${#strings.isEmpty(post.imagen)}" style="max-width: 25%;" class="img-thumbnail rounded"
+			th:src="@{'/uploads/' + ${post.imagen}}" th:alt="${post.imagen}" /> 
+		  </td>
+		  <td th:text="${post.categoria}"></td>
+		  <td th:text="${#temporals.format(post.fechaCreacion, 'dd-MM-yyyy - HH:mm')}"></td>	  
+	    </tr>
+	  </tbody>
+	</table>
+	<a class="btn btn-primary" th:href="@{/posts/}">Volver</a>
+</div>
+
+<div th:replace="layout/layout :: scripts"></div>
+</body>
+</html>
