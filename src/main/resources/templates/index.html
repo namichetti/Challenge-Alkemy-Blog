@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+
+<div th:replace="layout/layout :: navbar"></div>
+<div th:replace="layout/layout :: alerts"></div>
+
+<div class="container">
+	<h1 class="text text-primary font-weight-bold py-3 text-center">Post List</h1>
+	<a class="btn btn-primary mb-3" th:href="@{/posts/form}">Create Post</a>
+	<table class="table">
+	  <thead class="thead-light">
+	    <tr>
+	      <th>Detail</th>
+	      <th>Title</th>
+	      <th>Edit</th>
+	      <th>Delete</th> 
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr th:each="post:${posts}">
+	      <td><a class="btn btn-info" th:href="@{/posts/} + ${post.id}">View</a></td>
+	      <td th:text="${post.title}"></td>
+	      <td> <form th:action="@{/posts/form/} + ${post.id}" th:method="PATCH">
+	     		<button type="submit" class="btn btn-primary">Edit</button>
+	     	</form>
+	      </td>
+	     <td><form th:action="@{/posts/} + ${post.id}" th:method="DELETE">
+	     		<button type="submit" class="btn btn-danger">Delete</button>
+	     	</form>
+	     </td>
+	    </tr>
+	  </tbody>
+	</table>
+</div>
+
+<div th:replace="layout/layout :: scripts"></div>
+</body>
+</html>
