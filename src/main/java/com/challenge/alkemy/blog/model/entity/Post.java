@@ -44,6 +44,20 @@ public class Post implements Serializable{
 	public Post() {	
 	}
 	
+	
+	public Post(@NotEmpty String title, @NotEmpty String body, Category category) {
+		this.title = title;
+		this.body = body;
+		this.category = category;
+	}
+
+	public Post(Long id, @NotEmpty String title, @NotEmpty String body) {
+		this.id = id;
+		this.title = title;
+		this.body = body;
+	}
+
+
 	@PrePersist
 	public void prePertsist() {
 		this.deleted = false;
