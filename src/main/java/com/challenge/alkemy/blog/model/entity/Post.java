@@ -44,7 +44,6 @@ public class Post implements Serializable{
 	public Post() {	
 	}
 	
-	
 	public Post(@NotEmpty String title, @NotEmpty String body, Category category) {
 		this.title = title;
 		this.body = body;
@@ -56,7 +55,6 @@ public class Post implements Serializable{
 		this.title = title;
 		this.body = body;
 	}
-
 
 	@PrePersist
 	public void prePertsist() {
