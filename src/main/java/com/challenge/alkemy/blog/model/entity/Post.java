@@ -9,15 +9,19 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import org.hibernate.annotations.CreationTimestamp;
-
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import com.challenge.alkemy.blog.model.Category;
 
 
 @Entity
 @Table(name="posts")
+@SQLDelete(sql="UPDATE posts SET deleted =true WHERE id =?")
+@Where(clause="deleted =false")
 public class Post implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -35,8 +39,14 @@ public class Post implements Serializable{
 	@CreationTimestamp
 	@Column(name="creation_date")
 	private LocalDateTime creationDate;
+	private Boolean deleted;
 	
 	public Post() {	
+	}
+	
+	@PrePersist
+	public void prePertsist() {
+		this.deleted = false;
 	}
 
 	public Long getId() {
@@ -85,6 +95,14 @@ public class Post implements Serializable{
 
 	public void setCreationDate(LocalDateTime creationDate) {
 		this.creationDate = creationDate;
+	}
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 
 
